@@ -1,0 +1,27 @@
+{
+  "name": "firefly-editor-simple",
+  "version": "1.0.0",
+  "description": "firefly rich text editor",
+  "main": "src/main.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "husky": "^1.0.0-rc.13",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.7"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FuDesign2008/firefly-editor-simple.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FuDesign2008/firefly-editor-simple/issues"
+  },
+  "homepage": "https://github.com/FuDesign2008/firefly-editor-simple#readme"
+}
