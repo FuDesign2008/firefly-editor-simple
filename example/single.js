@@ -4,10 +4,10 @@
  * @date  2018-09-06
  */
 
-import * as TadpoleEditor from '../src/TadpoleEditor'
+import { Editor } from '@/web'
 
 const target = document.getElementById('editor')
-const editor = new TadpoleEditor({
+const editor = new Editor({
   el: target,
 })
 

@@ -5,7 +5,7 @@ const path = require('path')
 const glob = require('glob')
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, dir)
 }
 
 const theConfig = {

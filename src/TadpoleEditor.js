@@ -6,9 +6,11 @@
 import EventEmitter from 'wolfy87-eventemitter'
 
 class TadpoleEditor extends EventEmitter {
-  constructor(/*options*/) {
+  constructor(options) {
     super()
     // TODO
+    this.el = options.el
+    this.el.innerHTML = 'hello '
   }
 
   setContent() {
