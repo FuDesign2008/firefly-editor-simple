@@ -5,7 +5,7 @@
  */
 import EventEmitter from 'wolfy87-eventemitter'
 
-class FireflyEditor extends EventEmitter {
+class TadpoleEditor extends EventEmitter {
   constructor(/*options*/) {
     super()
     // TODO
@@ -24,4 +24,4 @@ class FireflyEditor extends EventEmitter {
   }
 }
 
-export default FireflyEditor
+export default TadpoleEditor

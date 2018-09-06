@@ -1,10 +1,16 @@
 {
-    "libs": [
-        "browser",
-        "ecmascript"
-    ],
-    "plugins": {
-        "es_modules": {},
-        "webpack": {}
-    }
+  "ecmaVersion": 6,
+  "libs": ["browser", "ecmascript"],
+  "plugins": {
+    "es_modules": {},
+    "node": {},
+    "doc_comment": {
+      "fullDocs": true,
+      "strong": true
+    },
+    "webpack": {
+      "configPath": "./webpack.config.js"
+    },
+    "complete_strings": {}
+  }
 }
