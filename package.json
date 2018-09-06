@@ -1,7 +1,7 @@
 {
-  "name": "firefly-editor-simple",
+  "name": "tadpole",
   "version": "1.0.0",
-  "description": "firefly rich text editor",
+  "description": "a rich text editor",
   "main": "src/main.js",
   "dependencies": {},
   "devDependencies": {
@@ -30,12 +30,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FuDesign2008/firefly-editor-simple.git"
+    "url": "git+https://github.com/FuDesign2008/tadpole.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FuDesign2008/firefly-editor-simple/issues"
+    "url": "https://github.com/FuDesign2008/tadpole/issues"
   },
-  "homepage": "https://github.com/FuDesign2008/firefly-editor-simple#readme"
+  "homepage": "https://github.com/FuDesign2008/tadpole#readme"
 }
