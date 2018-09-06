@@ -9,6 +9,10 @@ function resolve(dir) {
 }
 
 const theConfig = {
+  devServer: {
+    open: true,
+    openPage: 'single',
+  },
   context: path.resolve(__dirname, './'),
   entry: {},
   output: {
