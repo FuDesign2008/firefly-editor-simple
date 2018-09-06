@@ -1,10 +1,10 @@
-/**
- *
- * @author fuyg
- * @date  2018-07-13
- */
+/*eslint-env node*/
 
-module.exports = {
-  '*.{json,css,md}': ['prettier --write', 'git add'],
-  'src/**/*.js': ['eslint', 'prettier --write', 'git add'],
+const config = {
+  '*.js': ['eslint', 'prettier --write', 'git add'],
+  '*.vue': ['eslint', 'git add'],
+  '*.{css,scss}': ['stylelint', 'prettier --write', 'git add'],
+  '*.md': ['prettier --write', 'git add'],
 }
+
+module.exports = config

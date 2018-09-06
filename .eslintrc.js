@@ -4,7 +4,6 @@ module.exports = {
   root: true,
   parserOptions: {
     parser: 'babel-eslint',
-    sourceType: 'module',
     ecmaVersion: 2017,
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
@@ -13,14 +12,18 @@ module.exports = {
   env: {
     es6: true,
     browser: true,
-    commonjs: true,
     node: true,
   },
-  extends: ['eslint:recommended'],
+  extends: [
+    // https://github.com/standard/standard/blob/master/docs/RULES-en.md
+    'eslint:recommended',
+  ],
   plugins: ['html'],
-  // custom rules  @see https://eslint.org/docs/rules/
+  // add your custom rules here
   rules: {
-    indent: ['error', 2, { SwitchCase: 1 }],
-    'no-console': 0,
+    // allow async-await
+    'generator-star-spacing': 'off',
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },
 }

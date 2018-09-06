@@ -1,2 +1,3 @@
-# firefly-editor-simple # firefly-editor-simple
-# firefly-editor-simple
+# tadpole
+
+A rich text editor for web
