@@ -1,16 +1,38 @@
 /*eslint-env node*/
 
-const HtmlWebPackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
+const glob = require('glob')
 
-module.exports = {
-  entry: './src/index.js',
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+const theConfig = {
+  context: path.resolve(__dirname, './'),
+  entry: {},
   output: {
     path: path.resolve('dist'),
     filename: 'bundled.js',
   },
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      '@': resolve('src'),
+    },
+  },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter'),
+          emitWarning: true,
+        },
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -42,13 +64,43 @@ module.exports = {
           limit: 10000,
         },
       },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              root: resolve('src'),
+              attrs: ['img:src', 'link:href'],
+            },
+          },
+        ],
+      },
     ],
   },
 
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './src/index.html',
-      filename: './index.html',
-    }),
-  ],
+  plugins: [],
 }
+
+glob.sync('./example/*.js').forEach((path) => {
+  const name = path.replace('./example/', '').replace(/\.js/, '')
+
+  theConfig.entry[name] = path
+
+  const chunks = [name]
+  // chunks.unshift('vendors')
+  // chunks.unshift('manifest')
+
+  theConfig.plugins.push(
+    new HtmlWebpackPlugin({
+      filename: './' + name + '/index.html',
+      template: path.replace(/\.js/, '.html'),
+      inject: 'body',
+      // favicon: './src/logo.png',
+      chunksSortMode: 'manual',
+      chunks,
+    }),
+  )
+})
+
+module.exports = theConfig
