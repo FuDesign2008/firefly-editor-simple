@@ -10,19 +10,19 @@ const ensureElement = Symbol('ensureElement')
 class View extends EventEmitter {
   tagName = 'div'
 
-  constructor(options) {
+  /**
+   * @public
+   * @param {HTMLElement} [options.el]
+   * @param {Object} [options.attributes]
+   * @param {String|Object|Array} [options.className]
+   * @param {String} [options.tagName]
+   */
+  constructor(options = {}) {
     super(options)
+    this.domEventListers = {}
+
     this[configure](options)
     this[ensureElement]()
-    this.initialize()
-  }
-
-  /**
-   * This method should be override
-   * @public
-   */
-  initialize() {
-    return this
   }
 
   /**
@@ -31,6 +31,39 @@ class View extends EventEmitter {
    */
   render() {
     return this
+  }
+
+  /**
+   * @public
+   * @param {HTMLElement} el
+   * @param {String} event
+   * @param {String} methodName
+   * @param {Boolean|Object} [options=false]
+   */
+  addEventListener(el, event, methodName, options = false) {
+    const { domEventListers } = this
+    if (!domEventListers[methodName]) {
+      this[methodName] = this[methodName].bind(this)
+      domEventListers[methodName] = true
+    }
+    const listener = this[methodName]
+    el.addEventListener(event, listener, options)
+  }
+
+  /**
+   * @public
+   * @param {HTMLElement} el
+   * @param {String} event
+   * @param {String} methodName
+   * @param {Boolean|Object} [options=false]
+   */
+  removeEventListener(el, event, methodName, options = false) {
+    const { domEventListers } = this
+    if (!domEventListers[methodName]) {
+      return
+    }
+    const listener = this[methodName]
+    el.addEventListener(event, listener, options)
   }
 
   /**
@@ -46,6 +79,10 @@ class View extends EventEmitter {
    * @public
    */
   unbindDOMEvents() {
+    const { domEventListers } = this
+    if (Object.keys(domEventListers).length > 0) {
+      throw new Error('unbindDOMEvents() method should be implemented')
+    }
     return this
   }
 
@@ -63,11 +100,19 @@ class View extends EventEmitter {
   /**
    * @public
    */
-  remove() {
+  unmount() {
     const { el } = this
     if (el && el.parentNode) {
       el.parentNode.removeChild(el)
     }
+    return this
+  }
+
+  /**
+   * @public
+   */
+  remove() {
+    this.unmount()
     this.unbindDOMEvents()
     this.removeAllListeners()
     return this
@@ -81,6 +126,7 @@ class View extends EventEmitter {
     viewOptions.forEach((key) => {
       this[key] = null
     })
+    this.domEventListers = null
     this.options = null
   }
 
@@ -92,8 +138,10 @@ class View extends EventEmitter {
     Object.assign(
       this,
       ...viewOptions.map((key) => {
-        return {
-          [key]: options[key],
+        if (options[key]) {
+          return {
+            [key]: options[key],
+          }
         }
       }),
     )
@@ -111,11 +159,27 @@ class View extends EventEmitter {
         attrs.id = this.id
       }
       if (className) {
-        attrs.className = className
+        let classNameStr = ''
+
+        if (Array.isArray(className)) {
+          classNameStr = className.join(' ')
+        } else if (typeof className === 'object') {
+          const arr = Object.keys(className).map((key) => {
+            const value = className[key]
+            return value !== false ? key : ''
+          })
+          classNameStr = arr.join(' ')
+        } else {
+          classNameStr = className
+        }
+        attrs.className = classNameStr
       }
+
       const element = createElement(tagName, attrs)
       this.el = element
     }
+
+    this.bindDOMEvents()
   }
 }
 

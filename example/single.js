@@ -11,4 +11,6 @@ const editor = new Editor({
   el: target,
 })
 
+editor.setContent('<h1>hello tadpole</h1>')
+
 export default editor

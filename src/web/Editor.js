@@ -4,17 +4,19 @@
  * @date  2018-07-13
  */
 import EventEmitter from 'wolfy87-eventemitter'
+import EditView from '@/core/EditView'
 
 class Editor extends EventEmitter {
   constructor(options) {
-    super()
-    // TODO
-    this.el = options.el
-    this.el.innerHTML = 'hello '
+    super(options)
+    const editView = new EditView()
+    editView.mount(options.el)
+    this.editView = editView
   }
 
-  setContent() {
+  setContent(html) {
     // TODO
+    this.editView.setContent(html)
   }
 
   getContent() {

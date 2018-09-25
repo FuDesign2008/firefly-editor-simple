@@ -32,7 +32,4 @@ function createElement(tag, attrs) {
   return element
 }
 
-export default {
-  objectToStyleString,
-  createElement,
-}
+export { objectToStyleString, createElement }
