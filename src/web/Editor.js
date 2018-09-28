@@ -5,13 +5,47 @@
  */
 import EventEmitter from 'wolfy87-eventemitter'
 import EditView from '@/core/EditView'
+import Toolbar from './Toolbar'
 
 class Editor extends EventEmitter {
   constructor(options) {
     super(options)
+
+    this.options = options
+
+    const { el } = options
+
+    const toolbar = new Toolbar()
+    toolbar.mount(el)
+    toolbar.render()
+    this.toolbar = toolbar
+
     const editView = new EditView()
-    editView.mount(options.el)
+    editView.mount(el)
     this.editView = editView
+
+    this.adjustCss()
+    this.bindEvents()
+  }
+
+  adjustCss() {
+    const { options, editView, toolbar } = this
+    options.el.style.display = 'flex'
+    options.el.style.flexFlow = 'column nowrap'
+
+    toolbar.el.style.flexShrink = '0'
+    toolbar.el.style.flexGrow = '0'
+    toolbar.el.style.paddingBottom = '10px'
+
+    editView.el.style.height = '100%'
+  }
+
+  bindEvents() {
+    // TODO
+    // const { toolbar } = this
+    // toolbar.on('command', (...args) => {
+    // console.log(...args)
+    // })
   }
 
   setContent(html) {

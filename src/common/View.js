@@ -1,23 +1,26 @@
 import EventEmitter from 'wolfy87-eventemitter'
 import { createElement } from './createElement'
+import mergeDefaults from './mergeDefaults'
 
-const viewOptions = ['el', 'attributes', 'className', 'tagName']
+const viewOptions = ['el', 'attributes', 'styles', 'className', 'tagName']
 
 // private method name
 const configure = Symbol('configure')
 const ensureElement = Symbol('ensureElement')
 
 class View extends EventEmitter {
-  tagName = 'div'
-
   /**
    * @public
    * @param {HTMLElement} [options.el]
    * @param {Object} [options.attributes]
+   * @param {Object} [options.styles]
    * @param {String|Object|Array} [options.className]
-   * @param {String} [options.tagName]
+   * @param {String} [options.tagName = 'div']
    */
   constructor(options = {}) {
+    options = mergeDefaults(options, {
+      tagName: 'div',
+    })
     super(options)
     this.domEventListers = {}
 
@@ -152,7 +155,7 @@ class View extends EventEmitter {
    * @private
    */
   [ensureElement]() {
-    const { el, id, attributes, className, tagName } = this
+    const { el, id, attributes, styles, className, tagName } = this
     if (!el) {
       const attrs = Object.assign({}, attributes)
       if (id) {
@@ -173,6 +176,10 @@ class View extends EventEmitter {
           classNameStr = className
         }
         attrs.className = classNameStr
+      }
+
+      if (styles) {
+        attrs.style = styles
       }
 
       const element = createElement(tagName, attrs)

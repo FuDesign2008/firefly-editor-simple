@@ -5,13 +5,19 @@
  */
 
 import View from '@/common/View'
+import mergeDefaults from '@/common/mergeDefaults'
 
 class EditView extends View {
-  attributes = {
-    contenteditable: 'true',
-  }
-
   constructor(options) {
+    options = mergeDefaults(options, {
+      styles: {
+        outline: 'none',
+        border: '1px solid #999',
+      },
+      attributes: {
+        contenteditable: 'true',
+      },
+    })
     super(options)
     this.setEditable(true)
   }

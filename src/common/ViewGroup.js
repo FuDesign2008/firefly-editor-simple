@@ -7,7 +7,7 @@ class ViewGroup extends View {
    * @param {Object} [options.attributes]
    * @param {String|Object|Array} [options.className]
    * @param {String} [options.tagName]
-   * @param {Array<View>} [options.subViews]
+   * @param {Array<View|ViewGroup>} [options.subViews]
    */
   constructor(options = {}) {
     super(options)

@@ -5,38 +5,28 @@
  */
 
 import View from '@/common/View'
-import { createElement } from '@/common/createElement'
+import mergeDefaults from '@/common/mergeDefaults'
 
 class Button extends View {
-  tagName = 'a'
-
-  className = 'btn'
-
   /**
-   * @public
+   * @constructor
    * @param {Object} options.command
-   * @param {Object} options.icon
    */
   constructor(options) {
+    options = mergeDefaults(options, {
+      tagName: 'button',
+    })
     super(options)
-    this.clickHandler = this.clickHandler.bind(this)
-    this.icon = this.options.icon
     this.command = this.options.command
   }
 
   render() {
-    const { el, icon } = this
-    const iconElement = createElement('i', {
-      className: `icon-${icon}`,
-    })
-    el.innerHTML = ''
-    el.appendChild(iconElement)
-    return this
+    throw new Error('Button - render() should be implemented by sub-class')
   }
 
   clickHandler(event) {
     event.preventDefault()
-    this.emit('command', this.commandName)
+    this.emit('command', this.command)
   }
 
   bindDOMEvents() {

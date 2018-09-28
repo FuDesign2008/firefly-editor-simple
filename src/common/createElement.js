@@ -5,9 +5,10 @@
  */
 
 function objectToStyleString(styles) {
-  return Object.keys(styles)
+  const str = Object.keys(styles)
     .map((prop) => `${prop}: ${styles[prop]}`)
     .join(';')
+  return str
 }
 
 function createElement(tag, attrs) {
