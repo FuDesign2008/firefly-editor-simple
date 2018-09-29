@@ -5,6 +5,7 @@
  */
 import EventEmitter from 'wolfy87-eventemitter'
 import EditView from '@/core/EditView'
+import CommandManager from '@/core/CommandManager'
 import Toolbar from './Toolbar'
 
 class Editor extends EventEmitter {
@@ -12,6 +13,10 @@ class Editor extends EventEmitter {
     super(options)
 
     this.options = options
+
+    this.commandManager = new CommandManager({
+      document: window.document,
+    })
 
     const { el } = options
 
@@ -41,11 +46,10 @@ class Editor extends EventEmitter {
   }
 
   bindEvents() {
-    // TODO
-    // const { toolbar } = this
-    // toolbar.on('command', (...args) => {
-    // console.log(...args)
-    // })
+    const { toolbar } = this
+    toolbar.on('command', (...args) => {
+      this.execCommand(...args)
+    })
   }
 
   setContent(html) {
@@ -57,8 +61,9 @@ class Editor extends EventEmitter {
     // TODO
   }
 
-  execCommand() {
-    // TODO
+  execCommand(name, value) {
+    const cmd = CommandManager.createCommand(name, value)
+    this.commandManager.execCommand(cmd)
   }
 }
 

@@ -6,11 +6,15 @@
 
 import EventEmitter from 'wolfy87-eventemitter'
 import Command from './Command'
+import mergeDefaults from '@/common/mergeDefaults'
 
 class CommandManager extends EventEmitter {
   constructor(options) {
+    options = mergeDefaults(options, {
+      document: window.document,
+    })
     super(options)
-    this.document = options.document || document
+    this.document = options.document
   }
 
   execNativeCommand(name, value) {
@@ -27,6 +31,10 @@ class CommandManager extends EventEmitter {
       throw new Error('command is not valid')
     }
     return cmd.execute(this.document)
+  }
+
+  static createCommand(...args) {
+    return Command.create(...args)
   }
 }
 

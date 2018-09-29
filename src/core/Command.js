@@ -28,11 +28,17 @@ class Command {
    * @return {Command}
    */
   static create(name, value) {
+    if (!name) {
+      throw new Error('Need name to create command')
+    }
     if (name && name instanceof Command) {
       return name
     }
     if (name && typeof name === 'string') {
-      return new Command(name, value)
+      return new Command({
+        name,
+        value,
+      })
     }
   }
 
